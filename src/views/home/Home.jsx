@@ -15,10 +15,10 @@ export default function Home () {
                            </Grid.Column>
                            <Grid.Column>
                               
-                               Bem vindo ao sistema <strong>OxeFood</strong> ! <br/>
+                               Bem vindo ao sistema <strong>OxeFood!</strong> <br/>
                                Este sistema foi desenvolvido na disciplina de Desenvolvimento para WEB III. <br/> <br/>
-                               Para acessar o código da <strong>API</strong> do sistema, acesse: <a href='https://github.com/robertoalencar/oxefood-api' target='_blank'> https://github.com/robertoalencar/oxefood-api </a> <br/> <br/>
-                               Para acessar o código do <strong>Módulo WEB</strong>, acesse: <a href='https://github.com/robertoalencar/oxefood-web' target='_blank'> https://github.com/robertoalencar/oxefood-web </a>
+                               Para acessar o código da <strong>API</strong> do sistema, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-ewerthon' target='_blank'> https://github.com/Ewerthon-IF/oxefood-ewerthon </a> <br/> <br/>
+                               Para acessar o código do <strong>Módulo WEB</strong>, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-web-ewerthon' target='_blank'> https://github.com/Ewerthon-IF/oxefood-web-ewerthon </a>
 
                            </Grid.Column>
                        </Grid.Row>
