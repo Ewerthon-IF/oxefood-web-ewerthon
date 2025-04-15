@@ -116,9 +116,9 @@ export default function FormEntregador() {
                             </Form.Group>
 
                             <Form.Input>
-                                <div class="field">
+                                <div className="field">
                                     <label>UF</label>
-                                    <select class="ui fluid dropdown">
+                                    <select className="ui fluid dropdown">
                                         <option value="PE">PE</option>
                                         <option value="RN">RN</option>
                                         <option value="MS">MS</option>
@@ -133,11 +133,35 @@ export default function FormEntregador() {
                             >
                             </Form.Input>
 
-                            <Form.Input
-                                label='CRIAR'>
-                                
-
-                            </Form.Input>
+                            <div className="ui form">
+                                <div className="inline fields">
+                                    <label htmlFor="ativo">Ativo:</label>
+                                    <div className="field">
+                                        <div className="ui radio checkbox">
+                                            <input 
+                                                type="radio" 
+                                                name="ativo" 
+                                                value="sim" 
+                                                tabIndex="0" 
+                                                className="hidden" 
+                                            />
+                                            <label>Sim</label>
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <div className="ui radio checkbox">
+                                            <input 
+                                                type="radio" 
+                                                name="ativo" 
+                                                value="nao" 
+                                                tabIndex="0" 
+                                                className="hidden" 
+                                            />
+                                            <label>Não</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
@@ -176,4 +200,4 @@ export default function FormEntregador() {
 
     );
 
-}
+};

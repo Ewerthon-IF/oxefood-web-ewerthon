@@ -17,8 +17,8 @@ export default function Home () {
                               
                                Bem vindo ao sistema <strong>OxeFood!</strong> <br/>
                                Este sistema foi desenvolvido na disciplina de Desenvolvimento para WEB III. <br/> <br/>
-                               Para acessar o código da <strong>API</strong> do sistema, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-ewerthon' target='_blank'> https://github.com/Ewerthon-IF/oxefood-ewerthon </a> <br/> <br/>
-                               Para acessar o código do <strong>Módulo WEB</strong>, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-web-ewerthon' target='_blank'> https://github.com/Ewerthon-IF/oxefood-web-ewerthon </a>
+                               Para acessar o código da <strong>API</strong> do sistema, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-ewerthon' target='_blank' rel="noreferrer"> https://github.com/Ewerthon-IF/oxefood-ewerthon </a> <br/> <br/>
+                               Para acessar o código do <strong>Módulo WEB</strong>, acesse: <a href='https://github.com/Ewerthon-IF/oxefood-web-ewerthon' target='_blank' rel="noreferrer"> https://github.com/Ewerthon-IF/oxefood-web-ewerthon </a>
 
                            </Grid.Column>
                        </Grid.Row>
