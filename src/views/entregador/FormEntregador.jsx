@@ -144,7 +144,7 @@ export default function FormEntregador() {
                                                 value="sim" 
                                                 tabIndex="0" 
                                             />
-                                            <label htmlFor="ativo-sim">Sim</label>
+                                            <label htmlFor="ativo">Sim</label>
                                         </div>
                                     </div>
                                     <div className="field">
@@ -155,7 +155,7 @@ export default function FormEntregador() {
                                                 value="nao" 
                                                 tabIndex="0" 
                                             />
-                                            <label htmlFor="ativo-nao">Não</label>
+                                            <label htmlFor="ativo">Não</label>
                                         </div>
                                     </div>
                                 </div>
