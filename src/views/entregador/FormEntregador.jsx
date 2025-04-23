@@ -1,12 +1,31 @@
 import InputMask from 'comigo-tech-react-input-mask';
-import React from "react";
+import React, { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
 export default function FormEntregador() {
+
+        const [nome, setNome] = useState();
+        const [cpf, setCpf] = useState();
+        const [rg, setRg] = useState();
+        const [dataNascimento, setDataNascimento] = useState();
+        const [foneCelular, setFoneCelular] = useState();
+        const [foneFixo, setFoneFixo] = useState();
+        const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
+        const [valorFrete, setvalorFrete] = useState();
+        const [enderecoRua, setEnderecoRua] = useState();
+        const [enderecoComplemento, setEnderecoComplemento] = useState();
+        const [enderecoNumero, setEnderecoNumero] = useState();
+        const [enderecoBairro, setEnderecoBairro] = useState();
+        const [enderecoCidade, setEnderecoCidade] = useState();
+        const [enderecoCep, setenderecoCep] = useState();
+        const [enderecoUf, setEnderecoUf] = useState();
+        const [ativo, setAtivo] = useState(true)
 
     return (
 
         <div>
+             <MenuSistema tela={'entregador'} />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -28,6 +47,10 @@ export default function FormEntregador() {
                                     label='Nome'
                                     maxLength="100"
                                     width={8}
+                                    value={nome}
+                                    onChange={e => setNome(e.target.value)}
+
+
                                 />
 
                                 <Form.Input
