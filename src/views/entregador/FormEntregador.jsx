@@ -1,7 +1,9 @@
+import axios from "axios";
 import InputMask from 'comigo-tech-react-input-mask';
 import React, { useState } from "react";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+
 
 export default function FormEntregador() {
 
@@ -21,6 +23,36 @@ export default function FormEntregador() {
         const [enderecoCep, setenderecoCep] = useState();
         const [enderecoUf, setEnderecoUf] = useState();
         const [ativo, setAtivo] = useState(true)
+
+
+        function salvar() {
+            let entregadorRequest = { 
+                nome: nome,
+                cpf: cpf,
+                rg: rg,
+                dataNascimento: dataNascimento,
+                foneCelular: foneCelular,
+                foneFixo: foneFixo,
+                qtdEntregasRealizadas: qtdEntregasRealizadas,
+                valorFrete: valorFrete,
+                enderecoRua: enderecoRua,
+                enderecoComplemento: enderecoComplemento,
+                enderecoNumero: enderecoNumero,
+                enderecoBairro: enderecoBairro,
+                enderecoCidade: enderecoCidade,
+                enderecoCep: enderecoCep,
+                enderecoUf: enderecoUf,
+                ativo: ativo
+            }
+            
+            axios.post("http://localhost:8080/api/cliente", entregadorRequest)
+            .then((response) => {
+                 console.log('Entregador cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                 console.log('Erro ao incluir entregador.')
+            })
+        }
 
     return (
 
@@ -49,8 +81,6 @@ export default function FormEntregador() {
                                     width={8}
                                     value={nome}
                                     onChange={e => setNome(e.target.value)}
-
-
                                 />
 
                                 <Form.Input
@@ -61,6 +91,9 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="999.999.999-99"
+                                        value={cpf}
+                                        onChange={e => setCpf(e.target.value)}
+
                                     />
                                 </Form.Input>
 
@@ -71,6 +104,9 @@ export default function FormEntregador() {
                                     <InputMask
                                         required
                                         mask="99.999.999"
+                                        value={rg}
+                                        onChange={e => setRg(e.target.value)}
+
                                     />
 
                                 </Form.Input>
@@ -88,6 +124,9 @@ export default function FormEntregador() {
                                         mask="99/99/9999"
                                         maskChar={null}
                                         placeholder="Ex: 20/03/1985"
+                                        value={dataNascimento}
+                                        onChange={e => setDataNascimento(e.target.value)}
+
                                     />
                                 </Form.Input>
 
@@ -97,6 +136,8 @@ export default function FormEntregador() {
                                     width={6}>
                                     <InputMask
                                         mask="(99) 9999.9999"
+                                        value={foneCelular}
+                                        onChange={e => setFoneCelular(e.target.value)}
                                     />
                                 </Form.Input>
 
@@ -106,19 +147,28 @@ export default function FormEntregador() {
                                     width={6}>
                                     <InputMask
                                         mask="(99) 9999.9999"
+                                        value={foneFixo}
+                                        onChange={e => setFoneFixo(e.target.value)}
                                     />
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     label='QTD Entregas Realizadas'
-                                    width={6}>
+                                    width={6}
+                                    value={qtdEntregasRealizadas}
+                                    onChange={e => setQtdEntregasRealizadas(e.target.value)}
+                                    >
+                                    
                                 </Form.Input>
 
                                 <Form.Input
                                     fluid
                                     label='Valor Por Frete'
-                                    width={6}>
+                                    width={6}
+                                    value={valorFrete}
+                                    onChange={e => setvalorFrete(e.target.value)}
+                                    >
                                 </Form.Input>
                             </Form.Group>
 
@@ -126,6 +176,9 @@ export default function FormEntregador() {
                                 <Form.Input
                                     fluid
                                     label='Rua'
+                                    width={8}
+                                    value={enderecoRua}
+                                    onChange={e => setEnderecoRua(e.target.value)}
                                 >
                                 </Form.Input>
 
@@ -133,6 +186,8 @@ export default function FormEntregador() {
                                     fluid
                                     label='Número'
                                     width={8}
+                                    value={enderecoNumero}
+                                    onChange={e => setEnderecoNumero(e.target.value)}
                                 >
                                 </Form.Input>
 
@@ -206,6 +261,7 @@ export default function FormEntregador() {
                                 labelPosition='left'
                                 color='blue'
                                 floated='right'
+                                onClick={() => salvar()}
                             >
                                 <Icon name='save' />
                                 Salvar
