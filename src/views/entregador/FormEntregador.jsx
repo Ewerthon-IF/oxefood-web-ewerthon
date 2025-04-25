@@ -193,51 +193,86 @@ export default function FormEntregador() {
 
                             </Form.Group>
 
-                            <Form.Input>
-                                <div className="field">
-                                    <label>UF</label>
-                                    <select className="ui fluid dropdown">
-                                        <option value="PE">PE</option>
-                                        <option value="RN">RN</option>
-                                        <option value="MS">MS</option>
-                                    </select>
-                                </div>
+                            <Form.Group widths='equal'>
+                                <Form.Input
+                                    fluid
+                                    label='Bairro'
+                                    width={8}
+                                    value={enderecoBairro}
+                                    onChange={e => setEnderecoBairro(e.target.value)}
+                                >
+                                </Form.Input>
 
-                            </Form.Input>
+                                <Form.Input
+                                    fluid
+                                    label='cidade'
+                                    width={8}
+                                    value={enderecoCidade}
+                                    onChange={e => setEnderecoCidade(e.target.value)}
+                                >
+                                </Form.Input>
+
+                                <Form.Input
+                                    fluid
+                                    label='CEP'
+                                    width={3}
+                                >
+                                    <InputMask
+                                        mask="99999-999"
+                                        value={enderecoCep}
+                                        onChange={e => setenderecoCep(e.target.value)}
+                                    />
+                                </Form.Input>
+                            </Form.Group>
+
+
+                                <Form.Input
+                                    fluid
+                                    label='Cidade'
+                                    width={8}
+                                    value={enderecoCidade}
+                                    onChange={e => setEnderecoCidade(e.target.value)}
+                                >
+                                </Form.Input>
+
+
+                            <Form.Select
+                                fluid
+                                width={1}
+                                label='UF'
+                                options={[
+                                    { key: 'pe', value: 'PE', text: 'PE' },
+                                    { key: 'rn', value: 'RN', text: 'RN' },
+                                    { key: 'ms', value: 'MS', text: 'MS' }
+                                ]}
+                                placeholder='UF'
+                                value={enderecoUf}
+                                onChange={(e, { value }) => setEnderecoUf(value)}
+                            />
 
                             <Form.Input
                                 fluid
                                 label='Complemento'
+                                value={enderecoComplemento}
+                                onChange={e => setEnderecoComplemento(e.target.value)}x
                             >
                             </Form.Input>
 
-                            <div className="ui form">
-                                <div className="inline fields">
-                                    <label htmlFor="ativo">Ativo:</label>
-                                    <div className="field">
-                                        <div className="ui radio checkbox">
-                                            <input 
-                                                type="radio" 
-                                                name="ativo" 
-                                                value="sim" 
-                                                tabIndex="0" 
-                                            />
-                                            <label htmlFor="ativo">Sim</label>
-                                        </div>
-                                    </div>
-                                    <div className="field">
-                                        <div className="ui radio checkbox">
-                                            <input 
-                                                type="radio" 
-                                                name="ativo" 
-                                                value="nao" 
-                                                tabIndex="0" 
-                                            />
-                                            <label htmlFor="ativo">Não</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <Form.Group inline>
+                                <label>Ativo:</label>
+                                <Form.Radio
+                                    label='Sim'
+                                    value='sim'
+                                    checked={ativo === true}
+                                    onChange={() => setAtivo(true)}
+                                />
+                                <Form.Radio
+                                    label='Não'
+                                    value='nao'
+                                    checked={ativo === false}
+                                    onChange={() => setAtivo(false)}
+                                />
+                            </Form.Group>
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
