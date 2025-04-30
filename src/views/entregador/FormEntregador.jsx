@@ -1,63 +1,64 @@
 import axios from "axios";
 import InputMask from 'comigo-tech-react-input-mask';
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 
 export default function FormEntregador() {
 
-        const [nome, setNome] = useState();
-        const [cpf, setCpf] = useState();
-        const [rg, setRg] = useState();
-        const [dataNascimento, setDataNascimento] = useState();
-        const [foneCelular, setFoneCelular] = useState();
-        const [foneFixo, setFoneFixo] = useState();
-        const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
-        const [valorFrete, setvalorFrete] = useState();
-        const [enderecoRua, setEnderecoRua] = useState();
-        const [enderecoComplemento, setEnderecoComplemento] = useState();
-        const [enderecoNumero, setEnderecoNumero] = useState();
-        const [enderecoBairro, setEnderecoBairro] = useState();
-        const [enderecoCidade, setEnderecoCidade] = useState();
-        const [enderecoCep, setenderecoCep] = useState();
-        const [enderecoUf, setEnderecoUf] = useState();
-        const [ativo, setAtivo] = useState(true)
+    const [nome, setNome] = useState();
+    const [cpf, setCpf] = useState();
+    const [rg, setRg] = useState();
+    const [dataNascimento, setDataNascimento] = useState();
+    const [foneCelular, setFoneCelular] = useState();
+    const [foneFixo, setFoneFixo] = useState();
+    const [qtdEntregasRealizadas, setQtdEntregasRealizadas] = useState();
+    const [valorFrete, setvalorFrete] = useState();
+    const [enderecoRua, setEnderecoRua] = useState();
+    const [enderecoComplemento, setEnderecoComplemento] = useState();
+    const [enderecoNumero, setEnderecoNumero] = useState();
+    const [enderecoBairro, setEnderecoBairro] = useState();
+    const [enderecoCidade, setEnderecoCidade] = useState();
+    const [enderecoCep, setenderecoCep] = useState();
+    const [enderecoUf, setEnderecoUf] = useState();
+    const [ativo, setAtivo] = useState(true)
 
 
-        function salvar() {
-            let entregadorRequest = { 
-                nome: nome,
-                cpf: cpf,
-                rg: rg,
-                dataNascimento: dataNascimento,
-                foneCelular: foneCelular,
-                foneFixo: foneFixo,
-                qtdEntregasRealizadas: qtdEntregasRealizadas,
-                valorFrete: valorFrete,
-                enderecoRua: enderecoRua,
-                enderecoComplemento: enderecoComplemento,
-                enderecoNumero: enderecoNumero,
-                enderecoBairro: enderecoBairro,
-                enderecoCidade: enderecoCidade,
-                enderecoCep: enderecoCep,
-                enderecoUf: enderecoUf,
-                ativo: ativo
-            }
-            
-            axios.post("http://localhost:8080/api/cliente", entregadorRequest)
+    function salvar() {
+        let entregadorRequest = {
+            nome: nome,
+            cpf: cpf,
+            rg: rg,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo,
+            qtdEntregasRealizadas: qtdEntregasRealizadas,
+            valorFrete: valorFrete,
+            enderecoRua: enderecoRua,
+            enderecoComplemento: enderecoComplemento,
+            enderecoNumero: enderecoNumero,
+            enderecoBairro: enderecoBairro,
+            enderecoCidade: enderecoCidade,
+            enderecoCep: enderecoCep,
+            enderecoUf: enderecoUf,
+            ativo: ativo
+        }
+
+        axios.post("http://localhost:8080/api/cliente", entregadorRequest)
             .then((response) => {
-                 console.log('Entregador cadastrado com sucesso.')
+                console.log('Entregador cadastrado com sucesso.')
             })
             .catch((error) => {
-                 console.log('Erro ao incluir entregador.')
+                console.log('Erro ao incluir entregador.')
             })
-        }
+    }
 
     return (
 
         <div>
-             <MenuSistema tela={'entregador'} />
+            <MenuSistema tela={'entregador'} />
 
             <div style={{ marginTop: '3%' }}>
 
@@ -158,8 +159,8 @@ export default function FormEntregador() {
                                     width={6}
                                     value={qtdEntregasRealizadas}
                                     onChange={e => setQtdEntregasRealizadas(e.target.value)}
-                                    >
-                                    
+                                >
+
                                 </Form.Input>
 
                                 <Form.Input
@@ -168,7 +169,7 @@ export default function FormEntregador() {
                                     width={6}
                                     value={valorFrete}
                                     onChange={e => setvalorFrete(e.target.value)}
-                                    >
+                                >
                                 </Form.Input>
                             </Form.Group>
 
@@ -225,17 +226,6 @@ export default function FormEntregador() {
                                 </Form.Input>
                             </Form.Group>
 
-
-                                <Form.Input
-                                    fluid
-                                    label='Cidade'
-                                    width={8}
-                                    value={enderecoCidade}
-                                    onChange={e => setEnderecoCidade(e.target.value)}
-                                >
-                                </Form.Input>
-
-
                             <Form.Select
                                 fluid
                                 width={1}
@@ -254,7 +244,7 @@ export default function FormEntregador() {
                                 fluid
                                 label='Complemento'
                                 value={enderecoComplemento}
-                                onChange={e => setEnderecoComplemento(e.target.value)}x
+                                onChange={e => setEnderecoComplemento(e.target.value)} x
                             >
                             </Form.Input>
 
@@ -276,19 +266,19 @@ export default function FormEntregador() {
                         </Form>
 
                         <div style={{ marginTop: '4%' }}>
-
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
-
+                            <Link to={'/list-entregador'}>
+                                <Button
+                                    type="button"
+                                    inverted
+                                    circular
+                                    icon
+                                    labelPosition='left'
+                                    color='orange'
+                                >
+                                    <Icon name='reply' />
+                                    Voltar
+                                </Button>
+                            </Link>
                             <Button
                                 inverted
                                 circular

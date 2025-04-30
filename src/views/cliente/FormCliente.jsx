@@ -1,6 +1,7 @@
 import axios from "axios";
 import InputMask from 'comigo-tech-react-input-mask';
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
@@ -15,22 +16,22 @@ export default function FormCliente() {
 
     function salvar() {
 
-		let clienteRequest = {
-		     nome: nome,
-		     cpf: cpf,
-		     dataNascimento: dataNascimento,
-		     foneCelular: foneCelular,
-		     foneFixo: foneFixo
-		}
-	
-		axios.post("http://localhost:8080/api/cliente", clienteRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente.')
-		})
-	}
+        let clienteRequest = {
+            nome: nome,
+            cpf: cpf,
+            dataNascimento: dataNascimento,
+            foneCelular: foneCelular,
+            foneFixo: foneFixo
+        }
+
+        axios.post("http://localhost:8080/api/cliente", clienteRequest)
+            .then((response) => {
+                console.log('Cliente cadastrado com sucesso.')
+            })
+            .catch((error) => {
+                console.log('Erro ao incluir o um cliente.')
+            })
+    }
 
 
     return (
@@ -124,17 +125,17 @@ export default function FormCliente() {
 
                         <div style={{ marginTop: '4%' }}>
 
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
+                            <Link to={'/list-cliente'}>
+                                <Button
+                                    inverted
+                                    circular
+                                    icon
+                                    labelPosition='left'
+                                    color='orange'
+                                >
+                                    <Icon name='reply' /> Voltar
+                                </Button>
+                            </Link>
 
                             <Button
                                 inverted

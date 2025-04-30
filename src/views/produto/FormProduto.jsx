@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
@@ -75,7 +76,7 @@ export default function FormProduto() {
 
                             <Form.TextArea
                                 label="Descrição"
-                                placebor = "Defina a descrição do produto"
+                                placebor="Defina a descrição do produto"
                                 maxLength="1000000"
                                 value={descricao}
                                 onChange={e => setDescricao(e.target.value)}
@@ -118,17 +119,19 @@ export default function FormProduto() {
 
                         <div style={{ marginTop: '4%' }}>
 
-                            <Button
-                                type="button"
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='orange'
-                            >
-                                <Icon name='reply' />
-                                Voltar
-                            </Button>
+                            <Link to={'/list-produto'}>
+                                <Button
+                                    type="button"
+                                    inverted
+                                    circular
+                                    icon
+                                    labelPosition='left'
+                                    color='orange'
+                                >
+                                    <Icon name='reply' />
+                                    Voltar
+                                </Button>
+                            </Link>
 
                             <Button
                                 inverted
