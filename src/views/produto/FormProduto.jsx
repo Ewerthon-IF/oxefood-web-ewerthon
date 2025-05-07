@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
@@ -12,6 +12,24 @@ export default function FormProduto() {
     const [valorUnitario, setValorUnitario] = useState();
     const [tempoEntregaMinima, setTempoEntregaMinima] = useState();
     const [tempoEntregaMaxima, setTempoEntregaMaxima] = useState();
+    const { state } = useLocation();
+    const [idproduto, setIdProduto] = useState();
+
+    useEffect(() => {
+        if (state != null && state.id != null) {
+            axios.get("http://localhost:8080/api/produto/" + state.id)
+                .then((response) => {
+                    setIdProduto(response.data.id)
+                    setCodigo(response.data.codigo)
+                    setTitulo(response.data.titulo)
+                    setDescricao(response.data.descricao)
+                    setValorUnitario(response.data.valorUnitario)
+                    setTempoEntregaMinima(response.data.tempoEntregaMinima)
+                    setTempoEntregaMaxima(response.data.tempoEntregaMaxima)
+                })
+        }
+    }, [state])
+
 
     function salvar() {
 
@@ -23,17 +41,20 @@ export default function FormProduto() {
             tempoEntregaMinima: tempoEntregaMinima,
             tempoEntregaMaxima: tempoEntregaMaxima
         }
+ 
+        if (idproduto != null) { //Alteração:
+            axios.put("http://localhost:8080/api/produto/" + idproduto, produtoRequest)
+            .then((response) => { console.log('produto alterado com sucesso.') })
+            .catch((error) => { console.log('Erro ao alterar um produto.') })
 
-        axios.post("http://localhost:8080/api/produto", produtoRequest)
-            .then((response) => {
-                console.log('Produto cadastrado com sucesso.')
-            })
-            .catch((error) => {
-                console.log('Erro ao incluir o Produto.')
-            })
-    }
+        } else { //Cadastro:
+            axios.post("http://localhost:8080/api/produto", produtoRequest)
+            .then((response) => { console.log('produto cadastrado com sucesso.') })
+            .catch((error) => { console.log('Erro ao incluir o produto.') })
+        }
+ }
 
-    return (
+ return (
 
         <div>
             <MenuSistema tela={'produto'} />

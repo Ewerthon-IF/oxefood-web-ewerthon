@@ -1,12 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button, Container, Divider, Icon, Table } from 'semantic-ui-react';
+import { Button, Container, Divider, Header, Icon, Modal, Table } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
 
 export default function ListProduto() {
 
     const [lista, setLista] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
+    const [idRemover, setIdRemover] = useState();
+
+    function confirmaRemover(id) {
+        setOpenModal(true)
+        setIdRemover(id)
+    }
 
     useEffect(() => {
         carregarLista();
@@ -19,6 +26,25 @@ export default function ListProduto() {
                 setLista(response.data)
             })
     }
+
+    async function remover() {
+
+        await axios.delete('http://localhost:8080/api/produto/' + idRemover)
+            .then((response) => {
+
+                console.log('Produto removido com sucesso.')
+
+                axios.get("http://localhost:8080/api/produto")
+                    .then((response) => {
+                        setLista(response.data)
+                    })
+            })
+            .catch((error) => {
+                console.log('Erro ao remover o produto.')
+            })
+        setOpenModal(false)
+    }
+
     return (
         <div>
             <MenuSistema tela={'produto'} />
@@ -74,14 +100,15 @@ export default function ListProduto() {
                                                 color='green'
                                                 title='Clique aqui para editar os dados deste produto'
                                                 icon>
-                                                <Icon name='edit' />
+                                                <Link to="/form-produto" state={{ id: produto.id }} style={{ color: 'green', marginLeft: '15%' }}> <Icon name='edit' /> </Link>
                                             </Button> &nbsp;
                                             <Button
                                                 inverted
                                                 circular
                                                 color='red'
                                                 title='Clique aqui para remover este produto'
-                                                icon>
+                                                icon
+                                                onClick={e => confirmaRemover(produto.id)}>
                                                 <Icon name='trash' />
                                             </Button>
 
@@ -94,6 +121,26 @@ export default function ListProduto() {
                     </div>
                 </Container>
             </div>
+
+            <Modal
+                basic
+                onClose={() => setOpenModal(false)}
+                onOpen={() => setOpenModal(true)}
+                open={openModal}
+            >
+                <Header icon>
+                    <Icon name='trash' />
+                    <div style={{ marginTop: '5%' }}> Tem certeza que deseja remover esse registro? </div>
+                </Header>
+                <Modal.Actions>
+                    <Button basic color='red' inverted onClick={() => setOpenModal(false)}>
+                        <Icon name='remove' /> Não
+                    </Button>
+                    <Button color='green' inverted onClick={() => remover()}>
+                        <Icon name='checkmark' /> Sim
+                    </Button>
+                </Modal.Actions>
+            </Modal>
 
         </div>
     )
