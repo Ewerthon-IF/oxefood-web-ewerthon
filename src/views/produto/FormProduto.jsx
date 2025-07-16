@@ -1,180 +1,228 @@
-import axios from 'axios';
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import InputMask from "comigo-tech-react-input-mask";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react';
-import MenuSistema from '../../MenuSistema';
+import { Button, Container, Divider, Form, Icon } from "semantic-ui-react";
+import MenuSistema from "../../MenuSistema";
+import { notifyError, notifySuccess } from "../../views/util/Util";
 
 export default function FormProduto() {
+  const { state } = useLocation();
+  const [idProduto, setIdProduto] = useState();
 
-    const [codigo, setCodigo] = useState();
-    const [titulo, setTitulo] = useState();
-    const [descricao, setDescricao] = useState();
-    const [valorUnitario, setValorUnitario] = useState();
-    const [tempoEntregaMinima, setTempoEntregaMinima] = useState();
-    const [tempoEntregaMaxima, setTempoEntregaMaxima] = useState();
-    const { state } = useLocation();
-    const [idproduto, setIdProduto] = useState();
+  const [titulo, setTitulo] = useState();
+  const [codigo, setCodigo] = useState();
+  const [descricao, setDescricao] = useState();
+  const [valorUnitario, setValorUnitario] = useState();
+  const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
+  const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+  const [listaCategoria, setListaCategoria] = useState([]);
+  const [idCategoria, setIdCategoria] = useState();
 
-    useEffect(() => {
-        if (state != null && state.id != null) {
-            axios.get("http://localhost:8080/api/produto/" + state.id)
-                .then((response) => {
-                    setIdProduto(response.data.id)
-                    setCodigo(response.data.codigo)
-                    setTitulo(response.data.titulo)
-                    setDescricao(response.data.descricao)
-                    setValorUnitario(response.data.valorUnitario)
-                    setTempoEntregaMinima(response.data.tempoEntregaMinima)
-                    setTempoEntregaMaxima(response.data.tempoEntregaMaxima)
-                })
-        }
-    }, [state])
+  useEffect(() => {
+    console.log("state recebido:", state);
+    if (state != null && state.id != null) {
+      axios
+        .get("http://localhost:8080/api/produto/" + state.id)
+        .then((response) => {
+          setIdProduto(response.data.id);
+          setTitulo(response.data.titulo);
+          setCodigo(response.data.codigo);
+          setDescricao(response.data.descricao);
+          setValorUnitario(response.data.valorUnitario);
+          setTempoEntregaMinimo(response.data.tempoEntregaMaximo);
+          setTempoEntregaMaximo(response.data.tempoEntregaMinimo);
+          if (response.data.categoria != null) {
+            setIdCategoria(response.data.categoria.id);
+          }
+        });
+    }
 
+    axios.get("http://localhost:8080/api/categoriaproduto").then((response) => {
+      const dropDownCategorias = response.data.map((c) => ({
+        text: c.descricao,
+        value: c.id,
+      }));
+      setListaCategoria(dropDownCategorias);
+    });
+  }, [state]);
 
-    function salvar() {
+  function salvar() {
+    let produtoRequest = {
+      idCategoria: idCategoria,
+      titulo: titulo,
+      codigo: codigo,
+      descricao: descricao,
+      valorUnitario: valorUnitario,
+      tempoEntregaMinimo: tempoEntregaMinimo,
+      tempoEntregaMaximo: tempoEntregaMaximo,
+    };
 
-        let produtoRequest = {
-            codigo: codigo,
-            titulo: titulo,
-            descricao: descricao,
-            valorUnitario: valorUnitario,
-            tempoEntregaMinima: tempoEntregaMinima,
-            tempoEntregaMaxima: tempoEntregaMaxima
-        }
- 
-        if (idproduto != null) { //Alteração:
-            axios.put("http://localhost:8080/api/produto/" + idproduto, produtoRequest)
-            .then((response) => { console.log('produto alterado com sucesso.') })
-            .catch((error) => { console.log('Erro ao alterar um produto.') })
+    if (idProduto != null) {
+      //Alteração:
+      axios
+        .put("http://localhost:8080/api/produto/" + idProduto, produtoRequest)
+        .then((response) => {
+          console.log("Produto alterado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao alter um produto.");
+        });
+    } else {
+      //Cadastro:
+      axios
+        .post("http://localhost:8080/api/produto", produtoRequest)
+        .then((response) => {
+          console.log("produto cadastrado com sucesso.");
+          notifySuccess("Produto cadastrado com sucesso.");
+        })
+        .catch((error) => {
+          console.log("Erro ao incluir o produto.");
+          if (error.response.data.errors != undefined) {
+            for (let i = 0; i < error.response.data.errors.length; i++) {
+              notifyError(error.response.data.errors[i].defaultMessage);
+            }
+          } else {
+            notifyError(error.response.data.message);
+          }
+        });
+    }
+  }
 
-        } else { //Cadastro:
-            axios.post("http://localhost:8080/api/produto", produtoRequest)
-            .then((response) => { console.log('produto cadastrado com sucesso.') })
-            .catch((error) => { console.log('Erro ao incluir o produto.') })
-        }
- }
+  return (
+    <div>
+      <MenuSistema tela={"produto"} />
+      <div style={{ marginTop: "3%" }}>
+        <Container textAlign="justified">
+          {idProduto === undefined && (
+            <h2>
+              {" "}
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Produto &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Cadastro
+            </h2>
+          )}
+          {idProduto != undefined && (
+            <h2>
+              {" "}
+              <span style={{ color: "darkgray" }}>
+                {" "}
+                Produto &nbsp;
+                <Icon name="angle double right" size="small" />{" "}
+              </span>{" "}
+              Alteração
+            </h2>
+          )}
+          <Divider />
 
- return (
+          <div style={{ marginTop: "4%" }}>
+            <Form>
+              <Form.Group widths="equal">
+                <Form.Input
+                  required
+                  width={10}
+                  label="Título"
+                  maxLength="100"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                />
 
-        <div>
-            <MenuSistema tela={'produto'} />
+                <Form.Input required width={3} label="Código do Produto">
+                  <InputMask
+                    required
+                    value={codigo}
+                    onChange={(e) => setCodigo(e.target.value)}
+                  />
+                </Form.Input>
+              </Form.Group>
 
-            <div style={{ marginTop: '3%' }}>
+              <Form.Group widths="equal">
+                <Form.TextArea
+                  required
+                  fluid
+                  label="Descrição"
+                  placeholder=""
+                  maxLength="500"
+                  value={descricao}
+                  onChange={(e) => setDescricao(e.target.value)}
+                />
+              </Form.Group>
 
-                <Container textAlign='justified' >
+              <Form.Select
+                required
+                fluid
+                tabIndex="3"
+                placeholder="Selecione"
+                label="Categoria"
+                options={listaCategoria}
+                value={idCategoria}
+                onChange={(e, { value }) => {
+                  setIdCategoria(value);
+                }}
+              />
 
-                    <h2> <span style={{ color: 'darkgray' }}> Produto &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro </h2>
+              <Form.Group>
+                <Form.Input
+                  required
+                  width={6}
+                  label="Valor Unitário"
+                  maxLengt="50"
+                  value={valorUnitario}
+                  onChange={(e) => setValorUnitario(e.target.value)}
+                ></Form.Input>
 
-                    <Divider />
+                <Form.Input
+                  required
+                  width={6}
+                  label="Tempo de Entrega em Minutos"
+                  maxLengt="50"
+                  value={tempoEntregaMinimo}
+                  onChange={(e) => setTempoEntregaMinimo(e.target.value)}
+                />
 
-                    <div style={{ marginTop: '4%' }}>
+                <Form.Input
+                  required
+                  width={6}
+                  label="Tempo de Entrega Máximo em Minutos"
+                  maxLengt="50"
+                  value={tempoEntregaMaximo}
+                  onChange={(e) => setTempoEntregaMaximo(e.target.value)}
+                />
+              </Form.Group>
+            </Form>
 
-                        <Form>
+            <div style={{ marginTop: "4%" }}>
+              <Link to={"/list-produto"}>
+                <Button
+                  inverted
+                  circular
+                  icon
+                  labelPosition="left"
+                  color="orange"
+                >
+                  <Icon name="reply" /> Voltar,
+                </Button>
+              </Link>
 
-                            <Form.Group widths='equal'>
-
-                                <Form.Input
-                                    required
-                                    fluid
-                                    label='Título'
-                                    maxLength="100"
-                                    value={titulo}
-                                    onChange={e => setTitulo(e.target.value)}
-                                />
-
-                                <Form.Input
-                                    required
-                                    fluid
-                                    label='Código do produto'
-                                    value={codigo}
-                                    onChange={e => setCodigo(e.target.value)}
-                                >
-
-                                </Form.Input>
-
-                            </Form.Group>
-
-
-                            <Form.TextArea
-                                label="Descrição"
-                                placebor="Defina a descrição do produto"
-                                maxLength="1000000"
-                                value={descricao}
-                                onChange={e => setDescricao(e.target.value)}
-                            />
-
-
-                            <Form.Group>
-
-                                <Form.Input
-                                    required
-                                    fluid
-                                    label='Valor Unitário'
-                                    width={6}
-                                    value={valorUnitario}
-                                    onChange={e => setValorUnitario(e.target.value)}
-                                >
-                                </Form.Input>
-
-                                <Form.Input
-                                    fluid
-                                    label='Tempo de Entrega Mínima em Minutos'
-                                    width={6}
-                                    value={tempoEntregaMinima}
-                                    onChange={e => setTempoEntregaMinima(e.target.value)}
-                                >
-                                </Form.Input>
-
-                                <Form.Input
-                                    fluid
-                                    label='Tempo de Entrega Máxima em Minutos '
-                                    width={6}
-                                    value={tempoEntregaMaxima}
-                                    onChange={e => setTempoEntregaMaxima(e.target.value)}
-                                >
-                                </Form.Input>
-
-                            </Form.Group>
-
-                        </Form>
-
-                        <div style={{ marginTop: '4%' }}>
-
-                            <Link to={'/list-produto'}>
-                                <Button
-                                    type="button"
-                                    inverted
-                                    circular
-                                    icon
-                                    labelPosition='left'
-                                    color='orange'
-                                >
-                                    <Icon name='reply' />
-                                    Voltar
-                                </Button>
-                            </Link>
-
-                            <Button
-                                inverted
-                                circular
-                                icon
-                                labelPosition='left'
-                                color='blue'
-                                floated='right'
-                                onClick={() => salvar()}
-                            >
-                                <Icon name='save' />
-                                Salvar
-                            </Button>
-
-                        </div>
-
-                    </div>
-
-                </Container>
-            </div >
-        </div >
-
-    );
-
+              <Button
+                inverted
+                circular
+                icon
+                labelPosition="left"
+                color="blue"
+                floated="right"
+                onClick={() => salvar()}
+              >
+                <Icon name="save" />
+                Salvar
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </div>
+    </div>
+  );
 }
